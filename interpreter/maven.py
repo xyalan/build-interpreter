@@ -2,7 +2,7 @@
 import logging
 import os
 
-from env import c_shell
+from envir import c_shell
 from interpreter.build_tool import BuildTool
 
 logging.basicConfig(level=logging.DEBUG)

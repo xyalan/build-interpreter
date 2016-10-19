@@ -1,4 +1,4 @@
-from env import config
+from envir import config
 from interpreter import install
 import time
 

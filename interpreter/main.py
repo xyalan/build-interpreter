@@ -1,5 +1,5 @@
 #coding=utf-8
-from env import config
+from envir import config
 import logging
 import sys
 from lang import Java

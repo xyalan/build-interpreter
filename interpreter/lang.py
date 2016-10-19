@@ -3,18 +3,40 @@ from envir import c_shell
 import logging
 import os
 
-class Lang:
+class Lang(object):
     def __init__(self, build_config):
         self.build_config = build_config
 
-    def run(self):
-        pass
+    def set_env(self):
+        if dict(self.build_config).has_key('env'):
+            en = self.build_config['env']
+            if isinstance(en, str):
+                kv = en.split('=')
+                c_shell.set_env(**{kv[0]: kv[1]})
+            elif isinstance(en, list):
+                all_en = {}
+                for e in en:
+                    kv = e.split('=')
+                    all_en[kv[0]] = kv[1]
+                c_shell.set_env(**all_en)
+    def cus_script(self):
+        if dict(self.build_config).has_key('script'):
+            script = self.build_config['script']
+            if isinstance(script, list):
+                cus_script = []
+                for sc in list(script):
+                    cus_script.append(str(sc).split(' '))
+                return cus_script
+            return script
+        return None
 
-class Java:
+class Java(Lang):
     def __init__(self, build_config):
+        super(Java, self).__init__(build_config)
         self.build_config = build_config
         logging.basicConfig(level=logging.DEBUG)
         self.log = logging.getLogger(self.__class__.__name__)
+        print build_config
 
     def set_env(self):
         jdk = ['oraclejdk8']
@@ -32,19 +54,33 @@ class Java:
 
     def install(self):
         script = self.default_script()
-        if dict(self.build_config).has_key('script'):
-            script = self.build_config['script']
-            if isinstance(script, list):
-                cus_script = []
-                for sc in list(script):
-                    cus_script.append(str(sc).split(' '))
-                script = cus_script
+        if self.cus_script() is not None:
+            script = self.cus_script()
         # if script == None:
         #     if test:
         #         command = ['mvn', 'clean', 'install', '-Dmaven.test.skip=true']
-
-        self.log.info("execute command %s", script)
         c_shell.exec_cmd(script)
+
+    def run(self):
+        self.set_env()
+        self.install()
+
+class Scala(Lang):
+    def __init__(self, build_config):
+        super(Scala, self).__init__(build_config)
+        self.build_config = build_config
+        logging.basicConfig(level=logging.DEBUG)
+        self.log = logging.getLogger(self.__class__.__name__)
+
+    def default_script(self):
+        if os.path.isfile('build.sbt'):
+            return ['sbt', 'clean', 'test']
+
+    def install(self):
+        script = self.default_script()
+        if self.cus_script() is not None:
+            script = self.cus_script()
+            c_shell.exec_cmd(script)
 
     def run(self):
         self.set_env()

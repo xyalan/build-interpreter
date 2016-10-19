@@ -3,6 +3,7 @@ from envir import config
 import logging
 import sys
 from lang import Java
+from lang import Scala
 import os
 
 log = logging.getLogger(__name__)
@@ -24,11 +25,15 @@ def prepare_env():
 
 def main():
     lan = str(build_config['language']).lower()
+    project_root = input_args['app_path']
     if lan.__contains__('java'):
-        os.chdir(input_args['app_path'])
-        print build_config
+        os.chdir(project_root)
         java = Java(build_config)
         java.run()
+    elif lan.__contains__('scala'):
+        os.chdir(project_root)
+        scala = Scala(build_config)
+        scala.install()
     elif lan.__contains__("javascript"):
         print("use javascript")
 

@@ -1,0 +1,18 @@
+language: java
+jdk:
+ - oraclejdk8
+ - oraclejdk7
+module: api/client
+install: true
+env:
+ - PORT=8080
+ - DOCKER_REGISTRY=hub-dev.fenxibao.com
+ - DOCKER_TAG=time
+script:
+ - mvn clean
+ - mvn install clean -Dmaven.test.skip=true
+package:
+ - docker
+notifications:
+  email:
+  - houlong.yang@shuyun.com

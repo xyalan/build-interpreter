@@ -5,6 +5,7 @@ import sys
 from lang import Java
 from lang import Scala
 import os
+from docker_tools.docker_opt import DockerOpt
 
 log = logging.getLogger(__name__)
 
@@ -36,6 +37,12 @@ def main():
         scala.install()
     elif lan.__contains__("javascript"):
         print("use javascript")
+    cli = DockerOpt('unix://var/run/docker.sock')
+    re = cli.gen_repository(input_args['docker_registry'], input_args['project_key'], input_args['app_name'])
+    tag = cli.gen_tag(input_args['branch'], input_args['app_version'], '1.0.1')
+    image_name = str(re) + ':' + tag
+    cli.build('.', image_name)
+    cli.push_images(image_name)
 
 if __name__ == "__main__":
     main()

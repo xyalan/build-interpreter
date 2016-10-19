@@ -44,7 +44,7 @@ class DockerOpt:
         response = [line for line in cli.build(path, tag)]
         self.log.info(response)
 
-    def push_images(self, repository, tag):
+    def push_images(self, repository, tag=None):
         cli = Client(base_url=self.url)
         response = [line for line in cli.push(repository, tag=tag, stream=True)]
         self.log.info(response)

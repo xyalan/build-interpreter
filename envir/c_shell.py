@@ -8,16 +8,18 @@ log = logging.getLogger(__name__)
 
 def exec_cmd(cmd):
     if all(isinstance(i, str) for i in list(cmd)):
+        log.info(" ".join(cmd))
         subprocess.call(cmd)
     elif all(isinstance(i, list) for i in list(cmd)):
         for c in list(cmd):
+            log.info(" ".join(c))
             subprocess.call(c)
 
 
-def set_env(**kargs):
-    for k, v in kargs.iteritems():
+def set_env(**kwargs):
+    log.info("set env %s", kwargs)
+    for k, v in kwargs.iteritems():
         os.environ[k] = v
-        print os.environ[k]
 
 def subprocess_cmd(command):
     """

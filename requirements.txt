@@ -1,0 +1,2 @@
+docker_py==1.10.4
+PyYAML==3.12

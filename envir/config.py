@@ -25,16 +25,17 @@ def read_argv():
     return config
 
 
-def read_build_define(build_file='.sirius.yml'):
+def read_build_define(build_file):
     """
     读取构建定义文件并解析返回
     :param build_file: 构建定义文件的地址
     :return: 构建定文件的dict
     """
-    if not os.path.isfile(build_file):
+    bf = os.path.join(str(build_file), ".sirius.yml")
+    if not os.path.isfile(bf):
         raise ValueError('build define file not exists')
 
-    with open(build_file, 'r') as yml_file:
+    with open(bf, 'r') as yml_file:
         try:
             return yaml.load(yml_file)
         except yaml.YAMLError as exc:

@@ -12,8 +12,8 @@ log = logging.getLogger(__name__)
 try:
     input_args = config.read_argv()
     build_config = config.read_build_define(input_args['app_path'])
-except:
-    log.error("error to read build file or args")
+except Exception as error:
+    log.error("error to read build file or args %s", error)
     sys.exit()
 
 

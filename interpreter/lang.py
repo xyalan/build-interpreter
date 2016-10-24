@@ -59,7 +59,8 @@ class Java(Lang):
         # if script == None:
         #     if test:
         #         command = ['mvn', 'clean', 'install', '-Dmaven.test.skip=true']
-        c_shell.exec_cmd(script)
+        result = c_shell.exec_cmd(script)
+        print(result)
 
     def run(self):
         self.set_env()
@@ -80,7 +81,8 @@ class Scala(Lang):
         script = self.default_script()
         if self.cus_script() is not None:
             script = self.cus_script()
-            c_shell.exec_cmd(script)
+
+        c_shell.exec_cmd(script)
 
     def run(self):
         self.set_env()

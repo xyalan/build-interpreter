@@ -10,8 +10,8 @@ from docker_tools.docker_opt import DockerOpt
 log = logging.getLogger(__name__)
 
 try:
-    build_config = config.read_build_define("../test/.sirius.yml")
     input_args = config.read_argv()
+    build_config = config.read_build_define(input_args['app_path'])
 except:
     log.error("error to read build file or args")
     sys.exit()

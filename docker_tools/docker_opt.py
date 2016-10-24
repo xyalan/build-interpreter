@@ -13,7 +13,7 @@ class DockerOpt:
         sh.setFormatter(formatter)
         # sh.setLevel(logging.INFO)
         self.log.addHandler(sh)
-        self.log.debug("The APP with branch %s and %s %s will be interpreter.")
+        self.log.debug("create docker with %s", url)
         self.url = url
 
     def gen_tag(self, branch, app_version, api_version):

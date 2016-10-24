@@ -60,8 +60,8 @@ class Java(Lang):
         #     if test:
         #         command = ['mvn', 'clean', 'install', '-Dmaven.test.skip=true']
         result = c_shell.exec_cmd(script)
-        print(result)
-
+        if not all([e == 0 for e in result]):
+            raise Exception("execute error, exit")
     def run(self):
         self.set_env()
         self.install()
@@ -82,7 +82,9 @@ class Scala(Lang):
         if self.cus_script() is not None:
             script = self.cus_script()
 
-        c_shell.exec_cmd(script)
+        result = c_shell.exec_cmd(script)
+        if not all([e == 0 for e in result]):
+            raise Exception("execute error, exit")
 
     def run(self):
         self.set_env()

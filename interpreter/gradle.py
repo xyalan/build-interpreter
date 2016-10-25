@@ -1,4 +1,4 @@
-# encoding
+# coding
 from interpreter.build_tool import BuildTool
 
 class Gradle:

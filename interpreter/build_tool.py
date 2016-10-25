@@ -1,4 +1,4 @@
-# encoding=utf-8
+# coding=utf-8
 
 class BuildTool:
     def __init__(self, path):

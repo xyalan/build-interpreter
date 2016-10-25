@@ -3,6 +3,7 @@ import sys
 import os
 import yaml
 import logging
+from exception.config_excpetion import NoConfigException
 
 log = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ def read_build_define(build_file):
     """
     bf = os.path.join(str(build_file), ".sirius.yml")
     if not os.path.isfile(bf):
-        raise ValueError('build define file not exists')
+        raise NoConfigException('build define file not exists')
 
     with open(bf, 'r') as yml_file:
         try:

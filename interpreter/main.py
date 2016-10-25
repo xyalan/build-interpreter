@@ -6,12 +6,16 @@ from lang import Java
 from lang import Scala
 import os
 from docker_tools.docker_opt import DockerOpt
+from exception.config_excpetion import NoConfigException
 
 log = logging.getLogger(__name__)
 
 try:
     input_args = config.read_argv()
     build_config = config.read_build_define(input_args['app_path'])
+except NoConfigException as error:
+    log.warning(error)
+    build_config = {'language': 'java'}
 except Exception as error:
     log.error("error to read build file or args %s", error)
     sys.exit()

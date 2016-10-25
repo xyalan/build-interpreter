@@ -38,11 +38,11 @@ class Java(Lang):
         self.log = logging.getLogger(self.__class__.__name__)
         print build_config
 
-    def set_env(self):
-        jdk = ['oraclejdk8']
-        jdk = self.build_config['jdk']
-        self.log.info("switch use %s", jdk[0])
-        c_shell.set_env(JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home')
+    def set_dk(self):
+        if dict(self.build_config).has_key('jdk'):
+            jdk = dict(self.build_config).get('jdk')
+            self.log.info("switch use %s", jdk)
+            c_shell.set_env(JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home')
 
     def default_script(self):
         if os.path.isfile('pom.xml'):
@@ -63,6 +63,7 @@ class Java(Lang):
         if not all([e == 0 for e in result]):
             raise Exception("execute error, exit")
     def run(self):
+        self.set_dk()
         self.set_env()
         self.install()
 

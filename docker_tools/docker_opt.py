@@ -44,12 +44,12 @@ class DockerOpt:
         :return: None
         """
         version = self.app['docker']['api']['version']
-        cli = Client(base_url=self.url, version=version)
+        cli = Client(base_url=self.url, version=str(version))
         response = [line for line in cli.build(path, tag)]
         self.log.info(response)
 
     def push_images(self, repository, tag=None):
         version = self.app['docker']['api']['version']
-        cli = Client(base_url=self.url, version=version)
+        cli = Client(base_url=self.url, version=str(version))
         response = [line for line in cli.push(repository, tag=tag, stream=True)]
         self.log.info(response)

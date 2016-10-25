@@ -1,0 +1,4 @@
+docker:
+ url: tcp://127.0.0.1:2375
+ api:
+  version: 1.23

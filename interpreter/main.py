@@ -41,7 +41,7 @@ def main():
         scala.install()
     elif lan.__contains__("javascript"):
         print("use javascript")
-    cli = DockerOpt('unix://var/run/docker.sock')
+    cli = DockerOpt()
     re = cli.gen_repository(input_args['docker_registry'], input_args['project_key'], input_args['app_name'])
     tag = cli.gen_tag(input_args['branch'], input_args['app_version'], '1.0.1')
     image_name = str(re) + ':' + tag

@@ -2,10 +2,11 @@
 from docker import Client
 import time
 import logging
+from envir import config
 
 
 class DockerOpt:
-    def __init__(self, url):
+    def __init__(self):
         self.log = logging.getLogger(self.__class__.__name__)
         self.log.setLevel(logging.DEBUG)
         sh = logging.StreamHandler()
@@ -13,8 +14,10 @@ class DockerOpt:
         sh.setFormatter(formatter)
         # sh.setLevel(logging.INFO)
         self.log.addHandler(sh)
-        self.log.debug("create docker with %s", url)
-        self.url = url
+        app_config = config.read_app_config()
+        self.app = app_config
+        self.url = app_config['docker']['url']
+        self.log.debug("create docker with %s", self.url)
 
     def gen_tag(self, branch, app_version, api_version):
         now = time.localtime()
@@ -40,11 +43,13 @@ class DockerOpt:
         :param tag: image's tag
         :return: None
         """
-        cli = Client(base_url=self.url)
+        version = self.app['docker']['api']['version']
+        cli = Client(base_url=self.url, version=version)
         response = [line for line in cli.build(path, tag)]
         self.log.info(response)
 
     def push_images(self, repository, tag=None):
-        cli = Client(base_url=self.url)
+        version = self.app['docker']['api']['version']
+        cli = Client(base_url=self.url, version=version)
         response = [line for line in cli.push(repository, tag=tag, stream=True)]
         self.log.info(response)

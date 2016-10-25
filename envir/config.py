@@ -41,3 +41,13 @@ def read_build_define(build_file):
             return yaml.load(yml_file)
         except yaml.YAMLError as exc:
             log.error(exc)
+
+def read_app_config():
+    file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "app.yml")
+    if not os.path.isfile(file_path):
+        return {'docker': {'url': 'unix://var/run/docker.sock', 'api': {'version': '1.24'}}}
+    with open(file_path) as app:
+        try:
+            return yaml.load(app)
+        except Exception as e:
+            log.error(e)

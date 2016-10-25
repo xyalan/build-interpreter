@@ -47,6 +47,7 @@ class DockerOpt:
         cli = Client(base_url=self.url, version=str(version))
         response = [line for line in cli.build(path, tag)]
         self.log.info(response)
+        self.log.info("successful build image with dockerImageTag=%s", str(tag).split(':')[1])
 
     def push_images(self, repository, tag=None):
         version = self.app['docker']['api']['version']

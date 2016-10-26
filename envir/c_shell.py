@@ -3,7 +3,7 @@ import subprocess
 import os
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s-%(name)s \n%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 log = logging.getLogger(__name__)
 
 def exec_cmd(cmd):

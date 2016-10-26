@@ -4,20 +4,14 @@ import time
 import logging
 from envir import config
 
+log = logging.getLogger(__name__)
 
 class DockerOpt:
     def __init__(self):
-        self.log = logging.getLogger(self.__class__.__name__)
-        self.log.setLevel(logging.DEBUG)
-        sh = logging.StreamHandler()
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        sh.setFormatter(formatter)
-        # sh.setLevel(logging.INFO)
-        self.log.addHandler(sh)
         app_config = config.read_app_config()
         self.app = app_config
         self.url = app_config['docker']['url']
-        self.log.debug("create docker with %s", self.url)
+        log.info("create docker with %s", self.url)
 
     def gen_tag(self, branch, app_version, api_version):
         now = time.localtime()
@@ -47,12 +41,14 @@ class DockerOpt:
         """
         version = self.app['docker']['api']['version']
         cli = Client(base_url=self.url, version=str(version))
-        response = [line for line in cli.build(path, tag)]
-        self.log.info(response)
-        self.log.info("successful build image with dockerImageTag=%s", str(tag).split(':')[1])
+        response = cli.build(path, tag)
+        for line in response:
+            log.info(line)
+        log.info("successful build image with dockerImageTag=%s", str(tag).split(':')[1])
 
     def push_images(self, repository, tag=None):
         version = self.app['docker']['api']['version']
         cli = Client(base_url=self.url, version=str(version))
-        response = [line for line in cli.push(repository, tag=tag, stream=True)]
-        self.log.info(response)
+        response = cli.push(repository, tag=tag, stream=True)
+        for line in response:
+            log.info(line)

@@ -30,6 +30,8 @@ class DockerOpt:
             tag_name = api_version + "-" + app_version + "-r" + now_str
         elif str(branch).startswith("hotfix/"):
             tag_name = api_version + "-" + app_version + "-h" + now_str
+        else:
+            raise Exception('unsupported branch')
 
         return tag_name
 

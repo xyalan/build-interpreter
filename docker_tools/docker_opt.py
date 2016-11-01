@@ -3,6 +3,7 @@ from docker import Client
 import time
 import logging
 from envir import config
+import ast
 
 log = logging.getLogger(__name__)
 
@@ -43,7 +44,8 @@ class DockerOpt:
         cli = Client(base_url=self.url, version=str(version))
         response = cli.build(path, tag)
         for line in response:
-            log.info(line)
+            rp = {key: str(item.strip().decode('unicode_escape')) for key, item in ast.literal_eval(line).items()}
+            log.info(rp)
         log.info("successful build image with dockerImageTag=%s", str(tag).split(':')[1])
 
     def push_images(self, repository, tag=None):

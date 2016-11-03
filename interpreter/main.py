@@ -20,14 +20,6 @@ except Exception as error:
     log.error("error to read build file or args %s", error)
     sys.exit()
 
-
-def compile_file():
-    lan = build_config['language']
-
-
-def prepare_env():
-    print()
-
 def main():
     lan = str(build_config['language']).lower()
     project_root = input_args['app_path']

@@ -14,6 +14,7 @@ def exec_cmd(cmd):
             result.append(subprocess.call(c))
         return result
     elif isinstance(cmd, str):
+        log.info(cmd)
         cs = cmd.strip().split(' ')
         return [subprocess.call(cs)]
     else:

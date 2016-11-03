@@ -36,7 +36,6 @@ class Java(Lang):
         self.build_config = build_config
         logging.basicConfig(level=logging.DEBUG)
         self.log = logging.getLogger(self.__class__.__name__)
-        print build_config
 
     def set_dk(self):
         if dict(self.build_config).has_key('jdk'):

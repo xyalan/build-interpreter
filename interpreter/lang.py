@@ -54,8 +54,9 @@ class Java(Lang):
 
     def install(self):
         script = self.default_script()
-        if self.cus_script() is not None:
-            script = self.cus_script()
+        cus_script = self.cus_script()
+        if cus_script is not None:
+            script = cus_script
         # if script == None:
         #     if test:
         #         command = ['mvn', 'clean', 'install', '-Dmaven.test.skip=true']
@@ -80,12 +81,13 @@ class Scala(Lang):
 
     def install(self):
         script = self.default_script()
-        if self.cus_script() is not None:
-            script = self.cus_script()
+        cus_script = self.cus_script()
+        if cus_script is not None:
+            script = cus_script
 
         result = c_shell.exec_cmd(script)
         if not all([e == 0 for e in result]):
-            raise Exception("execute error, exit")
+            raise Exception("error to execute script, exit")
 
     def run(self):
         self.set_env()

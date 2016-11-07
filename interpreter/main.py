@@ -37,7 +37,8 @@ def compile_build():
 def create_docker():
     cli = DockerOpt()
     re = cli.gen_repository(input_args['docker_registry'], input_args['project_key'], input_args['app_name'])
-    tag = cli.gen_tag(input_args['branch'], input_args['app_version'], '1.0.1')
+    api_version = config.read_api_version()
+    tag = cli.gen_tag(input_args['branch'], input_args['app_version'], api_version)
     image_name = str(re) + ':' + tag
     log.info("build images %s", image_name)
     cli.build('.', image_name)

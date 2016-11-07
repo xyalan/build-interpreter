@@ -4,6 +4,7 @@ import os
 import yaml
 import logging
 from exception.config_excpetion import NoConfigException
+import re
 
 log = logging.getLogger(__name__)
 
@@ -51,3 +52,19 @@ def read_app_config():
             return yaml.load(app)
         except Exception as e:
             log.error(e)
+
+def read_api_version():
+    if os.path.isfile(".service.yml"):
+        with open('.service.yml') as s:
+            sy = yaml.load(s)
+            return sy['accessPoint']['apiVersion']
+    elif os.path.isfile("SERVICE"):
+        with open('SERVICE') as s:
+            con = s.read()
+            m = re.search('API_VERSION=([^\s]+)', con)
+            if m:
+                return m.group(1)
+            else:
+                raise Exception('SERVICE file format error')
+    else:
+        raise NoConfigException('.service.yml or SERVICE not exists')

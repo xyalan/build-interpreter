@@ -57,13 +57,17 @@ def read_api_version():
     if os.path.isfile(".service.yml"):
         with open('.service.yml') as s:
             sy = yaml.load(s)
-            return sy['accessPoint']['apiVersion']
+            api_v = sy['accessPoint']['apiVersion']
+            log.info('read api version %s in .service.yml', str(api_v))
+            return api_v
     elif os.path.isfile("SERVICE"):
         with open('SERVICE') as s:
             con = s.read()
             m = re.search('API_VERSION=([^\s]+)', con)
             if m:
-                return m.group(1)
+                api_v = m.group(1)
+                log.info('read api version %s in SERVICE', str(api_v))
+                return api_v
             else:
                 raise Exception('SERVICE file format error')
     else:

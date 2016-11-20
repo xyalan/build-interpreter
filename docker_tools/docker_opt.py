@@ -4,6 +4,7 @@ import time
 import logging
 from envir import config
 import ast
+import re
 
 log = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ class DockerOpt:
         :param tag: image's tag
         :return: None
         """
+        self.read_port()
         version = self.app['docker']['api']['version']
         cli = Client(base_url=self.url, version=str(version))
         response = cli.build(path, tag)
@@ -54,3 +56,14 @@ class DockerOpt:
         response = cli.push(repository, tag=tag, stream=True)
         for line in response:
             log.info(line)
+
+    def read_port(self):
+        with open('Dockerfile') as s:
+            con = s.read()
+            m = re.search('EXPOSE\s(.+)', con)
+            if m:
+                port = m.group(1)
+                ports = ','.join(port.split(' '))
+                log.info('read portsSymbol=%s', ports)
+            else:
+                raise Exception('Docker file not exists')

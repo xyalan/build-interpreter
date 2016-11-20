@@ -45,11 +45,11 @@ class Java(Lang):
 
     def default_script(self):
         if os.path.isfile('pom.xml'):
-            return ['mvn', 'clean', 'install']
+            return 'mvn clean install'
         elif os.path.isfile('build.gradle'):
             if os.path.isfile('gradlew'):
-                return ['./gradlew', 'assemble']
-            return ['gradle', 'assemble']
+                return './gradlew assemble'
+            return 'gradle assemble'
 
     def install(self):
         script = self.default_script()

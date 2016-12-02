@@ -7,6 +7,7 @@ from lang import Scala
 import os
 from docker_tools.docker_opt import DockerOpt
 from exception.config_excpetion import NoConfigException
+import time
 
 log = logging.getLogger(__name__)
 
@@ -44,7 +45,8 @@ def create_docker():
     cli.build('.', image_name)
     log.info("push image %s", image_name)
     cli.push_images(image_name)
-    log.info("clear local image %s", image_name)
+    log.info("wait %d seconds for clearing local image %s", 3, image_name)
+    time.sleep(3)
     cli.rm_image(image_name)
 
 def main():

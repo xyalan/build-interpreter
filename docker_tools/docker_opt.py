@@ -67,3 +67,8 @@ class DockerOpt:
                 log.info('read portsSymbol=%s', ports)
             else:
                 raise Exception('Docker file not exists')
+
+    def rm_image(self, repo):
+        version = self.app['docker']['api']['version']
+        cli = Client(base_url=self.url, version=str(version))
+        cli.remove_image(repo)

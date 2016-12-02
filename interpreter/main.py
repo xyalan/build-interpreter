@@ -47,7 +47,7 @@ def create_docker():
     cli.push_images(image_name)
     log.info("wait %d seconds for clearing local image %s", 3, image_name)
     time.sleep(3)
-    cli.rm_image(image_name)
+    #cli.rm_image(image_name)
 
 def main():
     compile_build()

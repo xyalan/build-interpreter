@@ -76,7 +76,7 @@ class Scala(Lang):
 
     def default_script(self):
         if os.path.isfile('build.sbt'):
-            return ['sbt', 'clean', 'test']
+            return 'sbt clean test'
 
     def install(self):
         script = self.default_script()

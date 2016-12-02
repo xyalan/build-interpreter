@@ -44,7 +44,7 @@ def create_docker():
     cli.build('.', image_name)
     log.info("push image %s", image_name)
     cli.push_images(image_name)
-    log.info("clear local image %", image_name)
+    log.info("clear local image %s", image_name)
     cli.rm_image(image_name)
 
 def main():

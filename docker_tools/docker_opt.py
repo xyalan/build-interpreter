@@ -44,7 +44,7 @@ class DockerOpt:
         self.read_port()
         version = self.app['docker']['api']['version']
         cli = Client(base_url=self.url, version=str(version))
-        response = cli.build(path, tag)
+        response = cli.build(path, tag, rm=True)
         for line in response:
             rp = {key: str(item.strip().decode('unicode_escape')) for key, item in ast.literal_eval(line).items()}
             log.info(rp)
